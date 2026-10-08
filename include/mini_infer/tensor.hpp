@@ -30,6 +30,8 @@ public:
 
     Tensor<T> operator+(const Tensor<T>& vec) const;
 
+    Tensor<T> operator*(const Tensor<T>& other) const;
+
 private:
     // tensor is row major right now 
     std::vector<T> data_;              // elements, flattened

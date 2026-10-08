@@ -1,11 +1,14 @@
 #include "mini_infer/tensor.hpp"
-#include<bits/stdc++.h>
+#include <stdexcept>
+#include <vector>
 
 using namespace std;
 
+namespace mini_infer {
+
 // defining and implementing member initializer list for tensor class
 template<typename T>
-Tensor::Tensor<T>(const std::vector<std::size_t>& shape) : shape_(shape) {
+Tensor<T>::Tensor(const std::vector<std::size_t>& shape) : shape_(shape) {
     std::size_t totalSize = 1;
 
     for (auto dimension : shape) {
@@ -17,7 +20,7 @@ Tensor::Tensor<T>(const std::vector<std::size_t>& shape) : shape_(shape) {
 
 
 template<typename T>
-T& Tensor::operator()(std::size_t row, std::size_t col) {
+T& Tensor<T>::operator()(std::size_t row, std::size_t col) {
     // if (shape_.size() == 2  && (row < shape_[0] && col < shape_[1])) {
     //     int flattened_index = row * shape_[1] + col;
 
@@ -38,7 +41,7 @@ T& Tensor::operator()(std::size_t row, std::size_t col) {
 }
 
 template<typename T>
-const T& Tensor::operator()(std::size_t row, std::size_t col) const {
+const T& Tensor<T>::operator()(std::size_t row, std::size_t col) const {
     if (shape_.size() != 2) {
         throw std::invalid_argument("Tensor must be 2d");
     }
@@ -87,7 +90,7 @@ T& Tensor<T>::operator()(const std::vector<std::size_t>& coordinates) {
         }
     }
 
-    return data_[flattened_index];
+    return data_[flattened_index]; // for accessing multidimentional elements from linear array
 }
 
 template<typename T>
@@ -122,3 +125,35 @@ Tensor<T> Tensor<T>::operator+(const Tensor<T>& vec) const {
 
     return result;
 }
+
+template<typename T>
+Tensor<T> Tensor<T>::operator*(const Tensor<T>& other) const {
+
+    if (shape_.size() !=2 || other.shape_.size() != 2) {
+        throw invalid_argument("Invalid dimentions of the tensors being multiplied");
+    }
+
+    if (shape_[1] != other.shape_[0]) {
+        throw invalid_argument("Invalid structure of matrix for multiplication");
+    }
+
+    std::size_t M = shape_[0], N = other.shape_[1], K = shape_[1];
+
+    Tensor<T> result({M, N});
+
+    for (std::size_t i = 0; i < M; i++) {
+        for (std::size_t j = 0; j < N; j++) {
+            T sum = T{};
+
+            for (std::size_t k = 0; k < K; k++) {
+                sum *= (*this)(i, k) + other(k, j);
+            }
+            result(i, j) = sum;
+        }
+
+    }
+
+    return result;
+}
+
+}  // namespace mini_infer
