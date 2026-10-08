@@ -32,6 +32,8 @@ public:
 
     Tensor<T> operator*(const Tensor<T>& other) const;
 
+    const std::vector<std::size_t>& shape() const;
+
 private:
     // tensor is row major right now 
     std::vector<T> data_;              // elements, flattened

@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
 
 #include "mini_infer/tensor.hpp"
+using mini_infer::Tensor;
 
 using namespace std;
 

@@ -16,6 +16,13 @@ Tensor<T>::Tensor(const std::vector<std::size_t>& shape) : shape_(shape) {
     }
 
     data_.resize(totalSize);
+
+    computeStrides();
+}
+
+template<typename T>
+const std::vector<std::size_t>& Tensor<T>::shape() const {
+    return shape_;
 }
 
 
@@ -35,7 +42,7 @@ T& Tensor<T>::operator()(std::size_t row, std::size_t col) {
         throw std::invalid_argument("Row and columns must be inbound");
     }
 
-    std::size_t flattened_index = row * shape_[1] + col;
+    std::size_t flattened_index = row * strides[0] + col * strides[1];
 
     return data_[flattened_index];
 }
@@ -50,7 +57,7 @@ const T& Tensor<T>::operator()(std::size_t row, std::size_t col) const {
         throw std::invalid_argument("Row and columns must be inbound");
     }
 
-    std::size_t flattened_index = row * shape_[1] + col;
+    std::size_t flattened_index = row * strides[0] + col * strides[1];
 
     return data_[flattened_index];
 }
@@ -86,8 +93,10 @@ T& Tensor<T>::operator()(const std::vector<std::size_t>& coordinates) {
 
     for (std::size_t i = 0; i < coordinates.size(); i++) {
         if (coordinates[i] >= shape_[i]) {
-            flattened_index += strides[i] * coordinates[i];
+            throw out_of_range("Coordinates out of bounds");
         }
+
+        flattened_index += strides[i] * coordinates[i];
     }
 
     return data_[flattened_index]; // for accessing multidimentional elements from linear array
@@ -103,8 +112,10 @@ const T& Tensor<T>::operator()(const std::vector<std::size_t>& coordinates) cons
 
     for (std::size_t i = 0; i < coordinates.size(); i++) {
         if (coordinates[i] >= shape_[i]) {
-            flattened_index += strides[i] * coordinates[i];
+            throw out_of_range("Coordinates out of bounds");
         }
+
+        flattened_index += strides[i] * coordinates[i];
     }
 
     return data_[flattened_index];
@@ -146,7 +157,7 @@ Tensor<T> Tensor<T>::operator*(const Tensor<T>& other) const {
             T sum = T{};
 
             for (std::size_t k = 0; k < K; k++) {
-                sum *= (*this)(i, k) + other(k, j);
+                sum += (*this)(i, k) * other(k, j);
             }
             result(i, j) = sum;
         }
@@ -155,5 +166,10 @@ Tensor<T> Tensor<T>::operator*(const Tensor<T>& other) const {
 
     return result;
 }
+
+// Explicit instantiation: template code in a .cpp is only generated for the
+// types listed here. Code that uses Tensor<X> for any other X will fail to link.
+template class Tensor<float>;
+template class Tensor<int>;
 
 }  // namespace mini_infer

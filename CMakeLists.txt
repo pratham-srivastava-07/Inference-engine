@@ -17,6 +17,7 @@ option(MINI_INFER_BUILD_TESTS "Build the mini-infer test suite" ON)
 # ---------------------------------------------------------------------------
 add_library(mini_infer STATIC
     src/tensor.cpp
+    src/linear.cpp
 )
 
 target_include_directories(mini_infer

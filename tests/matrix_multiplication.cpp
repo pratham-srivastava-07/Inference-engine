@@ -1,4 +1,7 @@
-#include<cassert>
+// Keep assert() active even in Release builds (which define NDEBUG),
+// otherwise the checks below would silently compile away.
+#undef NDEBUG
+#include <cassert>
 #include<iostream>
 
 #include "mini_infer/tensor.hpp"
@@ -27,10 +30,13 @@ void test_multiplication() {
 
     Tensor<int> C = A * B;
 
-    std::cout << "C(0,0): " << C(0, 0) << "\n";
-std::cout << "C(0,1): " << C(0, 1) << "\n";
-std::cout << "C(1,0): " << C(1, 0) << "\n";
-std::cout << "C(1,1): " << C(1, 1) << std::endl;
+    // [1 2 3]   [ 7  8]   [ 58  64]
+    // [4 5 6] x [ 9 10] = [139 154]
+    //           [11 12]
+    assert(C(0, 0) == 58);
+    assert(C(0, 1) == 64);
+    assert(C(1, 0) == 139);
+    assert(C(1, 1) == 154);
 
     std::cout << "Matrix multiplication test passed\n";
 
