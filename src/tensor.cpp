@@ -53,3 +53,72 @@ const T& Tensor::operator()(std::size_t row, std::size_t col) const {
 }
 
 
+template<typename T>
+void Tensor<T>::computeStrides() {
+    strides.resize(shape_.size());
+
+    if (strides.empty()) return;
+
+    strides.back() = 1;
+
+    // run backwards and calculate strides 
+
+    for (std::size_t i = strides.size()-1; i > 0; i--) {
+        strides[i-1] = strides[i] * shape_[i];
+    }
+     // a dimention's stride is equal to the product of all shape dimentions to its right
+
+    return;
+}
+
+
+template<typename T>
+T& Tensor<T>::operator()(const std::vector<std::size_t>& coordinates) {
+    
+    if (coordinates.size() != shape_.size()) {
+        throw invalid_argument("Invalid shape of coordinates vector");
+    }
+
+    std::size_t flattened_index = 0;
+
+    for (std::size_t i = 0; i < coordinates.size(); i++) {
+        if (coordinates[i] >= shape_[i]) {
+            flattened_index += strides[i] * coordinates[i];
+        }
+    }
+
+    return data_[flattened_index];
+}
+
+template<typename T>
+const T& Tensor<T>::operator()(const std::vector<std::size_t>& coordinates) const {
+    if (coordinates.size() != shape_.size()) {
+        throw invalid_argument("Invalid shape of coordinates vector");
+    }
+
+    std::size_t flattened_index = 0;
+
+    for (std::size_t i = 0; i < coordinates.size(); i++) {
+        if (coordinates[i] >= shape_[i]) {
+            flattened_index += strides[i] * coordinates[i];
+        }
+    }
+
+    return data_[flattened_index];
+}
+
+
+template<typename T>
+Tensor<T> Tensor<T>::operator+(const Tensor<T>& vec) const {
+    Tensor<T> result(shape_);
+
+    if (shape_ != vec.shape_) {
+        throw invalid_argument("Tensor shape must match");
+    }
+
+    for (std::size_t i = 0; i <= shape_.size()-1; i++) {
+        result.data_[i] = data_[i] + vec.data_[i];
+    }
+
+    return result;
+}

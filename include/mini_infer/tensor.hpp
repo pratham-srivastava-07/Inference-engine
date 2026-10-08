@@ -22,10 +22,20 @@ public:
 
     const T& operator()(std::size_t row, std::size_t col) const;
 
+    void computeStrides();
+
+    T& operator()(const std::vector<std::size_t>& coordinates);
+
+    const T& operator()(const std::vector<std::size_t>& coordinates) const;
+
+    Tensor<T> operator+(const Tensor<T>& vec) const;
+
 private:
     // tensor is row major right now 
     std::vector<T> data_;              // elements, flattened
     std::vector<std::size_t> shape_;   // size of each dimension
+
+    std::vector<std::size_t> strides;
 
 
 };
