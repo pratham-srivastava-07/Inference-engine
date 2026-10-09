@@ -20,3 +20,8 @@ add_executable(test_relu test_relu.cpp)
 target_link_libraries(test_relu PRIVATE mini_infer)
 mini_infer_set_project_options(test_relu)
 add_test(NAME relu.test_relu COMMAND test_relu)
+
+add_executable(test_softmax test_softmax.cpp)
+target_link_libraries(test_softmax PRIVATE mini_infer)
+mini_infer_set_project_options(test_softmax)
+add_test(NAME softmax.test_softmax COMMAND test_softmax)
