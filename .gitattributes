@@ -1,2 +1,2 @@
 * linguist-detectable=false
-*.txt linguist-detectable=true
+*.cpp linguist-detectable=true
