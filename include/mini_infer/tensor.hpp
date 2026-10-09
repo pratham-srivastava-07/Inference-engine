@@ -34,6 +34,16 @@ public:
 
     const std::vector<std::size_t>& shape() const;
 
+    // a public size method and operator[] overloading for tensor 
+
+    const T& operator[](std::size_t index);
+
+    T& operator[](std::size_t index);
+
+    std::size_t size() noexcept;
+
+    
+
 private:
     // tensor is row major right now 
     std::vector<T> data_;              // elements, flattened

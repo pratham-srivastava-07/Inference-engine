@@ -1,7 +1,10 @@
 #include <bits/stdc++.h>
 
 #include "mini_infer/tensor.hpp"
+#include "mini_infer/linear.hpp"
+
 using mini_infer::Tensor;
+using mini_infer::Linear;
 
 using namespace std;
 

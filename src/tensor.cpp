@@ -121,6 +121,21 @@ const T& Tensor<T>::operator()(const std::vector<std::size_t>& coordinates) cons
     return data_[flattened_index];
 }
 
+template<typename T>
+const T& Tensor<T>::operator[](std::size_t index) {
+    return data_[index];
+}
+
+
+template <typename T>
+T& Tensor<T>::operator[](std::size_t index) const {
+    return data_[index];
+}
+
+template<typename T>
+std::size_t Tensor<T>::size() noexcept {
+    return data_.size();
+}
 
 template<typename T>
 Tensor<T> Tensor<T>::operator+(const Tensor<T>& vec) const {
