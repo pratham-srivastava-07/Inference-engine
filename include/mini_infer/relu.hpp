@@ -10,7 +10,7 @@ namespace mini_infer {
     class Relu {
 
         public:
-            Tensor<T> forward(const Tensor<T> input) const;
+            Tensor<T> forward(const Tensor<T>& input) const;
     };
 
 }

@@ -15,3 +15,8 @@ add_executable(test_linear test_linear.cpp)
 target_link_libraries(test_linear PRIVATE mini_infer)
 mini_infer_set_project_options(test_linear)
 add_test(NAME linear.test_linear COMMAND test_linear)
+
+add_executable(test_relu test_relu.cpp)
+target_link_libraries(test_relu PRIVATE mini_infer)
+mini_infer_set_project_options(test_relu)
+add_test(NAME relu.test_relu COMMAND test_relu)

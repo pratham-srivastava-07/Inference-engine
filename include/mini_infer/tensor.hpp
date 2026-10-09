@@ -36,11 +36,11 @@ public:
 
     // a public size method and operator[] overloading for tensor 
 
-    const T& operator[](std::size_t index);
-
     T& operator[](std::size_t index);
 
-    std::size_t size() noexcept;
+    const T& operator[](std::size_t index) const;
+
+    std::size_t size() const noexcept;
 
     
 

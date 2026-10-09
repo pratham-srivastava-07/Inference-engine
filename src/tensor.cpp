@@ -122,18 +122,18 @@ const T& Tensor<T>::operator()(const std::vector<std::size_t>& coordinates) cons
 }
 
 template<typename T>
-const T& Tensor<T>::operator[](std::size_t index) {
+T& Tensor<T>::operator[](std::size_t index) {
     return data_[index];
 }
 
 
 template <typename T>
-T& Tensor<T>::operator[](std::size_t index) const {
+const T& Tensor<T>::operator[](std::size_t index) const {
     return data_[index];
 }
 
 template<typename T>
-std::size_t Tensor<T>::size() noexcept {
+std::size_t Tensor<T>::size() const noexcept {
     return data_.size();
 }
 
@@ -145,7 +145,7 @@ Tensor<T> Tensor<T>::operator+(const Tensor<T>& vec) const {
         throw invalid_argument("Tensor shape must match");
     }
 
-    for (std::size_t i = 0; i <= shape_.size()-1; i++) {
+    for (std::size_t i = 0; i < data_.size(); i++) {
         result.data_[i] = data_[i] + vec.data_[i];
     }
 

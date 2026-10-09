@@ -1,4 +1,4 @@
-#include <bits/stdc++.h>
+#include <iostream>
 
 #include "mini_infer/tensor.hpp"
 #include "mini_infer/linear.hpp"

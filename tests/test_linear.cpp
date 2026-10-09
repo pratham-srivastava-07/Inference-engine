@@ -41,4 +41,4 @@ int main() {
     return 0;
 }
 
-// output = 11, 16
+// XW = [11, 16], + bias [10, 20] = [21, 36]
