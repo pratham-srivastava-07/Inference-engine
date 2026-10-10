@@ -19,6 +19,7 @@ add_library(mini_infer STATIC
     src/tensor.cpp
     src/linear.cpp
     src/relu.cpp
+    src/layer_normalization.cpp
 )
 
 target_include_directories(mini_infer
