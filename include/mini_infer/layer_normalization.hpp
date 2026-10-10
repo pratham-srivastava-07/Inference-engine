@@ -11,6 +11,7 @@ class LayerNormalization {
     //
     public:
         Tensor<T> forward(const Tensor<T>& input) const;
+        Tensor<T> forward_two(const Tensor<T>& input) const; 
 };
 
 }
