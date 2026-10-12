@@ -54,6 +54,12 @@ Tensor<T> LayerNormalization<T>::forward_two(const Tensor<T>& input) const {
         );
     }
 
+    if (input.shape()[1] != gamma_.size()) {
+        throw std::invalid_argument(
+            "Input feature count must match gamma and beta"
+        );
+    }
+
     std::size_t rows = input.shape()[0];
     std::size_t cols = input.shape()[1];
 
@@ -82,12 +88,41 @@ Tensor<T> LayerNormalization<T>::forward_two(const Tensor<T>& input) const {
         T denominator = std::sqrt(variance + epsilon);
 
         for (std::size_t j = 0; j < cols; j++) {
-            output(i, j) = (input(i,j) - mean) / denominator;
+            T normalized = (input(i,j) - mean) / denominator;
+            output(i, j) = (gamma_[j] * normalized) + beta_[j]; 
         }
     }
 
     return output;
 }
+
+template<typename T>
+LayerNormalization<T>::LayerNormalization(const Tensor<T>& gamma,
+ const Tensor<T>& beta) : gamma_(gamma), beta_(beta) {
+    // validate the data members while construction
+
+    if (gamma_.size() == 0 || beta_.size() == 0) 
+    {
+        throw std::invalid_argument(
+            "Gamma and beta must not be empty"
+        );
+    }
+
+    if (gamma_.shape().size() != 1 || beta_.shape().size() != 1) 
+    {
+        throw std::invalid_argument(
+            "Gamma and beta both should be 1 dimentional"
+        );
+    }
+
+    if (gamma_.size() != beta_.size()) 
+    {
+        throw std::invalid_argument(
+            "Gamma and beta should have same number of elements"
+        );
+    }
+
+ }
 
 template class LayerNormalization<float>;
 

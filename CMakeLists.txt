@@ -20,6 +20,7 @@ add_library(mini_infer STATIC
     src/linear.cpp
     src/relu.cpp
     src/layer_normalization.cpp
+    src/gelu.cpp
 )
 
 target_include_directories(mini_infer

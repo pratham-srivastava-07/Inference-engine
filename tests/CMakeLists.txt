@@ -30,3 +30,8 @@ add_executable(test_layer_norm test_layer_norm.cpp)
 target_link_libraries(test_layer_norm PRIVATE mini_infer)
 mini_infer_set_project_options(test_layer_norm)
 add_test(NAME layerNorm.test_layer_norm COMMAND test_layer_norm)
+
+add_executable(test_gelu test_gelu.cpp)
+target_link_libraries(test_gelu PRIVATE mini_infer)
+mini_infer_set_project_options(test_gelu)
+add_test(NAME gelu.test_gelu COMMAND test_gelu)

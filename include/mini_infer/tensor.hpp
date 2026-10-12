@@ -42,6 +42,8 @@ public:
 
     std::size_t size() const noexcept;
 
+    Tensor<T> transpose() const;
+
     
 
 private:

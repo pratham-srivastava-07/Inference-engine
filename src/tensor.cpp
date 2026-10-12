@@ -182,6 +182,31 @@ Tensor<T> Tensor<T>::operator*(const Tensor<T>& other) const {
     return result;
 }
 
+template<typename T>
+Tensor<T> Tensor<T>::transpose() const {
+
+    if (shape().size() != 2) {
+        throw std::invalid_argument(
+            "Transpose requires a 2D tensor"
+        );
+    }
+
+    const std::size_t row = shape()[0];
+    const std::size_t col = shape()[1];
+
+    Tensor<T> output({col, row});
+
+    for (std::size_t i = 0; i < row; i++) 
+    {
+        for (std::size_t j = 0; j < col; j++)
+        {
+            output(j, i) = (*this)(i, j);
+        }
+    }
+
+    return output;
+}
+
 // Explicit instantiation: template code in a .cpp is only generated for the
 // types listed here. Code that uses Tensor<X> for any other X will fail to link.
 template class Tensor<float>;
