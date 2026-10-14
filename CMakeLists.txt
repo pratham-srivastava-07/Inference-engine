@@ -21,6 +21,7 @@ add_library(mini_infer STATIC
     src/relu.cpp
     src/layer_normalization.cpp
     src/gelu.cpp
+    src/dot_attention.cpp
 )
 
 target_include_directories(mini_infer

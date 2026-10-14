@@ -35,3 +35,8 @@ add_executable(test_gelu test_gelu.cpp)
 target_link_libraries(test_gelu PRIVATE mini_infer)
 mini_infer_set_project_options(test_gelu)
 add_test(NAME gelu.test_gelu COMMAND test_gelu)
+
+add_executable(test_attention test_attention.cpp)
+target_link_libraries(test_attention PRIVATE mini_infer)
+mini_infer_set_project_options(test_attention)
+add_test(NAME attention.test_attention COMMAND test_attention)
