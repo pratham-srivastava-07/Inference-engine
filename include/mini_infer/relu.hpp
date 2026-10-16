@@ -13,6 +13,7 @@ namespace mini_infer {
 
         public:
             Tensor<T> forward(const Tensor<T>& input) const;
+            Tensor<T> forward_two_dimentional(const Tensor<T>& input) const;
     };
 
 }
